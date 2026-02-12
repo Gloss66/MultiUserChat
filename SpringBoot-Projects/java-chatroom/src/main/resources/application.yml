@@ -1,0 +1,35 @@
+spring.application.name:
+  Java-chatroom
+
+server:
+  port: 12345
+
+mybatis:
+  mapper-locations: classpath:mapper/**Mapper.xml
+  configuration: # 配置打印 MyBatis 执行的 SQL
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true  #自动驼峰转换
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/java_chatroom?characterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    favicon:
+      enable: false
+  profiles:  #多平台配置
+    active: dev
+#  main:
+#    allow-bean-definition-overriding: true
+
+logging:
+  file:
+    name: /logs/springboot.log
+  logback:
+    rollingpolicy:
+      max-file-size: 1MB
+      file-name-pattern: /logs/springboot-%d{yyyy-MM-dd HH:mm}.%i.log
+  level:
+    root: debug
