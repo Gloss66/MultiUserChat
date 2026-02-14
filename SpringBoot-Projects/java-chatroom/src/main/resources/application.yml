@@ -26,10 +26,10 @@ spring:
 
 logging:
   file:
-    name: /logs/springboot.log
+    path: /logs
   logback:
     rollingpolicy:
       max-file-size: 1MB
-      file-name-pattern: /logs/springboot-%d{yyyy-MM-dd HH:mm}.%i.log
+      file-name-pattern: ${LOG_PATH}.%d{yyyy-MM-dd}.%i.log
   level:
-    root: debug
+    root: info

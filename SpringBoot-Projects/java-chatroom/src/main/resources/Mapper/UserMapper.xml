@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gloss.chatroom.mapper.UserMapper">
-    <insert id="insert">
-        insert into user(id,username,password) values (null,#{username},#{password});
+    <resultMap id="BaseMap" type="com.gloss.chatroom.model.User">
+        <id column="id" property="userId"></id>
+        <result column="username" property="userName"></result>
+        <result column="password" property="passWord"></result>
+    </resultMap>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+        insert into user(id,username,password) values (null,#{userName},#{passWord});
     </insert>
 
-    <select id="selectByUserName" resultType="com.gloss.chatroom.model.User">
-        select * from user which #{username} = username;
+    <select id="selectByUserName" resultMap="BaseMap">
+        select * from user where username = #{userName};
     </select>
 
 </mapper>

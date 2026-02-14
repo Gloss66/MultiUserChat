@@ -1,6 +1,7 @@
 package com.gloss.chatroom.Controller;
 
 import com.gloss.chatroom.mapper.UserMapper;
+import com.gloss.chatroom.model.Response;
 import com.gloss.chatroom.model.User;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,22 +13,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
-    @Resource
+    @Autowired
     UserMapper userMapper;
+    @Autowired
+    Response response;
 
     @RequestMapping(value="/login")
     public Object login(String userName, String passWord, HttpServletRequest request) {
         User user = userMapper.selectByUserName(userName);
         if(user == null|| !passWord.equals(user.getPassWord())) {
-            return null;
+            return new Response().put("userName","");
         }
         HttpSession session = request.getSession(true);
         session.setAttribute("user", user);
-        return user;
+        response.newMap();
+        response.put("userId", user.getUserId());
+        response.put("userName", user.getUserName());
+        return response.getMap();
     }
 
     @RequestMapping(value = "/register")
     public Object register(String username, String passWord) {
+        if(username.isEmpty() || passWord.isEmpty()) {
+            return new Response().put("Error","Username or password is null");
+        }
         User user = new User();
         try{
             user.setPassWord(passWord);
@@ -35,9 +44,13 @@ public class UserController {
             int insert = userMapper.insert(user);
             System.out.println("注册:"+insert);
         } catch (DuplicateKeyException e) {
-            user= new User();
+            return  new Response().put("Error","Username is exist");
         }
-        return user;
+        System.out.println(response);
+        response.newMap();
+        response.put("userId", user.getUserId());
+        response.put("userName", user.getUserName());
+        return response.getMap();
     }
 
 }
