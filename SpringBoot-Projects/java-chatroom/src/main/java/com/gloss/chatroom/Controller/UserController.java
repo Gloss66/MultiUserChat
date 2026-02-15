@@ -36,14 +36,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register")
-    public Object register(String username, String passWord) {
-        if(username.isEmpty() || passWord.isEmpty()) {
+    public Object register(String userName, String passWord) {
+        if(userName.isEmpty() || passWord.isEmpty()) {
             return new Response().put("Error","Username or password is null");
         }
         User user = new User();
         try{
             user.setPassWord(passWord);
-            user.setUserName(username);
+            user.setUserName(userName);
             int insert = userMapper.insert(user);
             System.out.println("注册:"+insert);
         } catch (DuplicateKeyException e) {

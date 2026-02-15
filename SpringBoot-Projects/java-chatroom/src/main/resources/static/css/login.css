@@ -1,0 +1,63 @@
+/* 登录页面样式 */
+
+.login-container {
+    width: 100%;
+    height: calc(100% - 50px);
+    /* 垂直水平居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-dialog {
+    width: 400px;
+    height: 320px;
+    background-color: rgb(230, 230, 230);
+    border-radius: 15px;
+}
+
+.login-dialog h2 {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.login-dialog .row {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-dialog .row span {
+    display: block;
+    width: 80px;
+    font-weight: 700;
+}
+
+#username,
+#password {
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+    text-indent: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+#submit {
+    width: 300px;
+    height: 40px;
+    background-color: rgb(0, 125, 0);
+    color: rgb(255, 255, 255);
+    border: none;
+    font-size: 20px;
+    border-radius: 10px;
+    margin-top: 40px;
+}
+
+#submit:active {
+    background-color: #6666;
+}
+
+
