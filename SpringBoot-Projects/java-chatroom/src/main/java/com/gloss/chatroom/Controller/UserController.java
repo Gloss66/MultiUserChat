@@ -22,7 +22,10 @@ public class UserController {
     public Object login(String userName, String passWord, HttpServletRequest request) {
         User user = userMapper.selectByUserName(userName);
         if(user == null|| !passWord.equals(user.getPassWord())) {
-            return new Response().put("userName","");
+            response.newMap();
+            response.put("userId", 0);
+            response.put("userName", "");
+            return response.getMap();
         }
         HttpSession session = request.getSession(true);
         session.setAttribute("user", user);

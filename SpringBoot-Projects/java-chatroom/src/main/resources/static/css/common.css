@@ -1,0 +1,26 @@
+/* 公共样式 */
+
+/* 去除浏览器默认样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+/* 设定页面高度 */
+html,body {
+    height: 100%;
+}
+
+/* 设置导航栏的样式 */
+.nav {
+    height: 50px;
+    background-color: rgb(50, 50, 50);
+    color: rgb(255, 255, 255);
+
+    /* 垂直方向居中 */
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
