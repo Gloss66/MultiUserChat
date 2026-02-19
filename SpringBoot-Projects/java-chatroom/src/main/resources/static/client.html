@@ -17,7 +17,7 @@
       <!-- 左边区域:显示列表和搜索框等.... -->
       <div class="left">
         <div class="user">
-          zhangsan
+          
         </div>
         <!-- 搜索框 -->
         <div class="search">
@@ -97,21 +97,42 @@
           </li>
         </ul>
         <!-- 好友列表 -->
-         <ul class="list hide" id="friend-list">
-          <li>
-            <h4>lisi</h4>
-          </li>
-          <li>
-            <h4>wangwu</h4>
-          </li>
-          <li>
-            <h4>zhaoliu</h4>
-          </li>
-         </ul>
+         <ul class="list hide" id="friend-list"></ul>
       </div>
       <!-- 右边区域,显示聊天界面 -->
-      <div class="right"></div>
+      <div class="right">
+        <!-- 会话标题 -->
+         <div class="title">lisi</div>
+         <!-- 会话内容 -->
+          <div class="content">
+              <!-- 一个消息行 -->
+              <div class="message message-left">
+                <!-- 一个消息块 -->
+                <div class="box">
+                  <h4>lisi</h4>
+                  <p>你好啊</p>
+                </div>
+              </div>
+              <!-- 一个消息行 -->
+              <div class="message message-right">
+                <!-- 一个消息块 -->
+                <div class="box">
+                  <h4>zhangsan</h4>
+                  <p>你好~~~~~~~~~~~</p>
+                </div>
+              </div>
+          </div>
+          <!-- 消息编辑框 -->
+           <textarea class="message-input list" placeholder="输入文本..."></textarea>
+           <!-- 发送按钮 -->
+            <div class="ctrl">
+              <button>发送</button>
+            </div>
+      </div>
     </div>
   </div>
+
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <script src="js/client.js"></script>
 </body>
 </html>

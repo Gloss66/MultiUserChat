@@ -3,13 +3,14 @@ package com.gloss.chatroom.Controller;
 import com.gloss.chatroom.mapper.UserMapper;
 import com.gloss.chatroom.model.Response;
 import com.gloss.chatroom.model.User;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
 
 @RestController
 public class UserController {
@@ -22,17 +23,13 @@ public class UserController {
     public Object login(String userName, String passWord, HttpServletRequest request) {
         User user = userMapper.selectByUserName(userName);
         if(user == null|| !passWord.equals(user.getPassWord())) {
-            response.newMap();
-            response.put("userId", 0);
-            response.put("userName", "");
-            return response.getMap();
+            return response.put(Arrays.asList("userId","userName")
+                    ,Arrays.asList(0,""));
         }
         HttpSession session = request.getSession(true);
         session.setAttribute("user", user);
-        response.newMap();
-        response.put("userId", user.getUserId());
-        response.put("userName", user.getUserName());
-        return response.getMap();
+        return response.put(Arrays.asList("userId","userName")
+                ,Arrays.asList(user.getUserId(),user.getUserName()));
     }
 
     @RequestMapping(value = "/register")
@@ -50,10 +47,24 @@ public class UserController {
             return  new Response().put("Error","Username is exist");
         }
         System.out.println(response);
-        response.newMap();
-        response.put("userId", user.getUserId());
-        response.put("userName", user.getUserName());
-        return response.getMap();
+        return response.put(Arrays.asList("userId","userName")
+                ,Arrays.asList(user.getUserId(),user.getUserName()));
+    }
+
+    @RequestMapping(value = "/userInfo")
+    public Object getUserInfo(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session == null) {
+            System.out.println("[getUserInfo] 当前session对象为空!");
+            return new User();
+        }
+        User user = (User) session.getAttribute("user");
+        if(user == null) {
+            System.out.println("[getUserInfo] 当前user对象为空!");
+            return new User();
+        }
+        return response.put(Arrays.asList("userId","userName")
+                ,Arrays.asList(user.getUserId(),user.getUserName()));
     }
 
 }

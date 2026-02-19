@@ -12,7 +12,7 @@ public class User {
     private Integer userId;
     private String userName;
     private String passWord;
-    private Integer deleteFlag;
-    private String createTime;
-    private String updateTime;
+//    private Integer deleteFlag;
+//    private String createTime;
+//    private String updateTime;
 }
