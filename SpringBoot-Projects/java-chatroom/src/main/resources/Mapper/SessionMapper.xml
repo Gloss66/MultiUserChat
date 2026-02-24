@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gloss.chatroom.mapper.SessionMapper">
+    <select id="getSessionIdsByUserId" resultType="java.lang.Integer">
+        select sessionId from session where sessionId in
+        (select sessionId from session_user where userId = #{userId}) order by lastTime desc;
+    </select>
+    <select id="getFriendsBySessionId" resultType="com.gloss.chatroom.model.Friend">
+        select id as friendId, username as friendName from user where id in
+       (select userId from session_user where sessionId = #{sessionId} and userId != #{selfUserId});
+    </select>
+    <insert id="createSession" useGeneratedKeys="true" keyProperty="sessionId">
+        insert into session values(null, now());
+    </insert>
+    <insert id="createSessionUser">
+        insert into session_user(sessionId, userId) values(#{sessionId}, #{userId});
+    </insert>
+    <update id="updateLastTime">
+        update session set lastTime = now() where sessionId =
+        (select s1.sessionId from session_user s1 join session_user s2 on s1.userId=#{userId} and s2.userId=#{toUserId} and s1.sessionId = s2.sessionId);
+    </update>
+</mapper>

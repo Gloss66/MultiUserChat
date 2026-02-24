@@ -1,5 +1,6 @@
 package com.gloss.chatroom.Controller;
 
+import com.gloss.chatroom.mapper.SessionMapper;
 import com.gloss.chatroom.mapper.UserMapper;
 import com.gloss.chatroom.model.Response;
 import com.gloss.chatroom.model.User;
@@ -18,10 +19,13 @@ public class UserController {
     UserMapper userMapper;
     @Autowired
     Response response;
+    @Autowired
+    private SessionMapper sessionMapper;
 
     @RequestMapping(value="/login")
     public Object login(String userName, String passWord, HttpServletRequest request) {
         User user = userMapper.selectByUserName(userName);
+//        密码不正确或user为空,则登录失败
         if(user == null|| !passWord.equals(user.getPassWord())) {
             return response.put(Arrays.asList("userId","userName")
                     ,Arrays.asList(0,""));
