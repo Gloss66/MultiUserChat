@@ -14,6 +14,7 @@
   border-radius: 5px;
   display: flex;
   z-index: 2;
+  position: relative;
 }
 
 .main .left {
@@ -22,13 +23,14 @@
   background-color: #242424;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+  position: relative;
 }
 
 .main .right {
   width: 720px;
   height: 100%;
   padding: 0 20px;
-  background-color: rgb(238, 238, 238);
+  background-color: #eeeeee;
 }
 
 .main .right-plain {
@@ -39,6 +41,8 @@
   background-size: 128px 128px;
   background-repeat: no-repeat;
   background-position: center center;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .cover {
@@ -59,13 +63,40 @@
 
 .main .left .user {
   height: 60px;
+  width: 280px;
+  background-color: #242424;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  border-top-left-radius: 5px;
+}
+
+.main .left .user .info {
+  width: 200px;
   font-size: 20px;
   line-height: 60px;
   color: rgb(255, 255, 255);
   padding: 0 20px;
-  background-color: #242424;
+  user-select: none;
 }
 
+.main .left .user .logout {
+  width: 80px;
+  height: 60px;
+  padding: 0 10px;
+  background-image: url(../img/logout.png);
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  background-position: center center;
+  cursor: pointer;
+}
+
+.main .left .user .logout:hover {
+  background-image: url(../img/logout_hover.png);
+}
+
+/* 搜索和添加 */
 .main .left .search {
   height: 60px;
   padding: 0 20px;
@@ -73,54 +104,123 @@
   justify-content: center;
   align-items: center;
   background-color: #242424;
+  position: relative;
 }
 
+/* 搜索框 */
 .main .left .search input {
   height: 34px;
-  width: 200px;
+  width: 190px;
   line-height: 34px;
   font-size: 14px;
   color: rgb(200, 198, 198);
-  background-color: #2F2F2F;
-  border: none;
+  background-color: #2f2f2f;
+  border: 1px solid #2f2f2f;
   outline: none;
   /* outline-color: rgb(7, 193, 96);
   outline-width: 1px; */
-  padding-left: 10px;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  padding-left: 30px;
+  /* border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px; */
+  border-radius: 5px;
+  background-image: url(../img/search.png);
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  background-position: 5px center;
 }
-
-.main .left .search button {
+.main .left .search input:focus {
+  border-color: #07C160;
+}
+/* 搜索按钮 */
+/* .main .left .search .searchBtn {
   height: 34px;
   width: 34px;
   border: none;
   outline: none;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  background-color: #2F2F2F;
-  background-image: url(../img/search1.png);
+  background-color: #2f2f2f;
+  background-image: url(../img/search.png);
   background-repeat: no-repeat;
   background-size: 20px 20px;
   background-position: center center;
-}
+  cursor: pointer;
+} */
 
-.main .left .search button:hover {
+/* .main .left .search .searchBtn:hover { */
   /* background-color: rgb(63, 65, 63); */
-  background-image: url(../img/search2.png);
+  /* background-image: url(../img/search_hover.png);
   background-repeat: no-repeat;
   background-size: 20px 20px;
   background-position: center center;
-}
+} */
 
-.main .left .search button:active {
+.main .left .search .searchBtn:active {
   /* background-color: rgb(40, 42, 40); */
-  background-image: url(../img/search3.png);
+  background-image: url(../img/search_active.png);
   background-repeat: no-repeat;
   background-size: 20px 20px;
   background-position: center center;
 }
 
+/* 添加按钮 */
+.main .left .search .addBtn {
+  height: 34px;
+  width: 34px;
+  margin-left: 15px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background-color: #2f2f2f;
+  background-image: url(../img/add.png);
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  background-position: center center;
+  cursor: pointer;
+}
+
+/* 搜索结果下拉列表 */
+.main .left .search-result {
+  position: absolute;
+  top: 120px;
+  left: 20px;
+  width: 200px;
+  background-color: #2f2f2f;
+  border-radius: 6px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  z-index: 14;
+  overflow: hidden;
+  user-select: none;
+}
+
+.main .left .search-result-list {
+  max-height: 150px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.main .left .search-result-list li {
+  padding: 10px 12px;
+  color: #f7f7f7;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: #2f2f2f;
+}
+
+.main .left .search-result-list li:hover:not(.no-result) {
+  background-color: #3a3a3a;
+}
+
+.main .left .search-result-list .no-result {
+  color: #bfbfbf;
+  cursor: default;
+}
+
+.main .left .search .addBtn:hover {
+  background-color: #3f3f3f;
+}
+
+/* 会话与好友列表的切换菜单 */
 .main .left .tab {
   height: 50px;
   display: flex;
@@ -128,6 +228,7 @@
   background-color: #353535;
 }
 
+/* 会话 */
 .main .left .tab .tab-session {
   height: 45px;
   width: 45px;
@@ -138,12 +239,14 @@
   background-size: 30px 30px;
   background-position: center center;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .main .left .tab .tab-session:hover {
-  background-color: #3F3F3F;
+  background-color: #3f3f3f;
 }
 
+/* 好友 */
 .main .left .tab .tab-friend {
   height: 45px;
   width: 45px;
@@ -154,12 +257,14 @@
   background-size: 30px 30px;
   background-position: center center;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .main .left .tab .tab-friend:hover {
-  background-color: #3F3F3F;
+  background-color: #3f3f3f;
 }
 
+/* 列表样式 */
 .main .left .list {
   height: 530px;
   /* 1. 默认隐藏滚动条 */
@@ -174,29 +279,41 @@
   overflow: overlay;
 }
 
+/* 列表元素块 */
 .main .left .list li {
   height: 60px;
   padding: 10px 20px;
-  color: rgb(247, 247, 247)
+  cursor: pointer;
+  user-select: none;
 }
 
+/* 元素块未激活时悬停 */
 .main .left .list li:hover:not(.active) {
-  background-color: #3A3A3A;
+  background-color: #3a3a3a;
 }
 
+/* 元素块激活时悬停 */
 .main .left .list .active:hover {
-  background-color: #4E4E4E;
+  background-color: #4e4e4e;
 }
 
+/* 元素块激活 */
 .main .left .list .active {
   background-color: #444444;
 }
 
 /* 会话列表的样式 */
-.main .left .list li h3,
+.main .left .list li h3{
+  height: 20px;
+  font-size: 16px;
+  color: rgb(247, 247, 247);
+  font-weight: normal;
+  line-height: 20px;
+}
 .main .left .list li p {
   height: 20px;
   font-size: 14px;
+  color: #878787;
   font-weight: normal;
   line-height: 20px;
 }
@@ -205,13 +322,9 @@
 .main .left .list li h4 {
   height: 40px;
   line-height: 40px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: normal;
-}
-
-/* 隐藏列表 */
-.hide {
-  display: none;
+  color: rgb(247, 247, 247);
 }
 
 /* 
@@ -226,7 +339,7 @@
 
 /* 整个滚动条 */
 ::-webkit-scrollbar {
-  width: var(--scrollbar-width);  /* 垂直滚动条的宽度 */
+  width: var(--scrollbar-width); /* 垂直滚动条的宽度 */
   height: var(--scrollbar-width); /* 水平滚动条的高度 */
 }
 
@@ -251,7 +364,7 @@
 
 /* 鼠标悬停在滑块上时的效果 */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--scrollbar-thumb-color); 
+  background-color: var(--scrollbar-thumb-color);
 }
 
 /* 对话标题 */
@@ -261,6 +374,7 @@
   font-size: 20px;
   text-align: center;
   border-bottom: 1px solid rgb(204, 204, 204);
+  user-select: none;
 }
 
 /* 对话框 */
@@ -298,7 +412,18 @@
   height: 20px;
   line-height: 20px;
   font-size: 16px;
-  color: #9F9F9F;
+  color: #9f9f9f;
+  display: flex;
+}
+
+/* 左消息名字靠左 */
+.message-left .box h4 {
+  justify-content: flex-start;
+}
+
+/* 右消息名字靠右 */
+.message-right .box h4 {
+  justify-content: flex-end;
 }
 
 /* 消息气泡 */
@@ -306,6 +431,9 @@
   padding: 10px;
   margin-top: 5px;
   border-radius: 5px;
+  display: inline-block;
+  word-wrap: break-word;
+  max-width: 680px;
 }
 
 /* 左边的消息气泡 */
@@ -331,6 +459,7 @@
   resize: none;
   font-size: 16px;
   font-weight: normal;
+  /* font-family: Arial, sans-serif; */
 }
 
 .main .right .ctrl {
@@ -346,9 +475,10 @@
   width: 100px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #07C160;
+  background-color: #07c160;
   font-size: 15px;
-  color: #FFF;
+  color: #fff;
+  cursor: pointer;
 }
 
 .main .right .ctrl button:hover {
@@ -356,5 +486,233 @@
 }
 
 .main .right .ctrl button:active {
-  background-color: #00AA00;
+  background-color: #00aa00;
+}
+
+.main .logout-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  user-select: none;
+}
+
+.main .logout-modal.hide {
+  display: none;
+}
+
+/* 退出登录窗口 */
+.main .logout-modal .logout-dialog {
+  width: 280px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+/* 退出登录标题 */
+.main .logout-modal .logout-text {
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+}
+/* 退出登录的确认取消选项 */
+.main .logout-modal .logout-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.main .logout-modal .logout-actions button {
+  width: 70px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+/* 确认选项 */
+.main .logout-modal .logout-actions .confirm {
+  border: none;
+  color: #fff;
+  background-color: #07c160;
+  margin-right: 20px;
+}
+
+.main .logout-modal .logout-actions .confirm:hover {
+  background-color: #0f9d53;
+}
+/* 取消选项 */
+.main .logout-modal .logout-actions .cancel {
+  color: black;
+  background-color: #f7f7f7;
+  margin-right: 50px;
+}
+
+.main .logout-modal .logout-actions .cancel:hover {
+  background-color: #a6a6a6;
+}
+
+/* 添加菜单覆盖层 */
+.add-menu-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  z-index: 12;
+}
+/* add-menu-overlay和hide标签同时存在时隐藏 */
+.add-menu-overlay.hide {
+  display: none;
+}
+/* 添加菜单下拉框 */
+.add-menu-dropdown {
+  position: absolute;
+  min-width: 140px;
+  border-radius: 6px;
+  background-color: #2e2e2e;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  user-select: none;
+}
+.add-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+.add-menu-item:hover {
+  background-color: #07c160;
+}
+.add-menu-item:hover .text{
+  color: #f7f7f7;
+}
+.add-menu-item .icon-placeholder {
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  background-color: transparent;
+  border-radius: 4px;
+}
+.add-friend-item .icon-placeholder {
+  background-image: url(../img/addfriends.png);
+  background-repeat: no-repeat;
+  background-size: 28px 28px;
+  background-position: center center;
+}
+.create-group-item .icon-placeholder {
+  background-image: url(../img/groupchat.png);
+  background-repeat: no-repeat;
+  background-size: 28px 28px;
+  background-position: center center;
+}
+.add-friend-item:hover .icon-placeholder {
+  background-image: url(../img/addfriends_hover.png);
+}
+.create-group-item:hover .icon-placeholder {
+  background-image: url(../img/groupchat_hover.png);
+}
+.add-menu-item .text {
+  color: #BBBBBB;
+  font-size: 18px;
+}
+
+/* 添加好友居中大窗口 */
+.add-friend-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  user-select: none;
+}
+.add-friend-modal.hide {
+  display: none;
+}
+.add-friend-dialog {
+  width: 420px;
+  background: #242424;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.add-friend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #2f2f2f;
+}
+.add-friend-title {
+  font-size: 18px;
+  color: #f7f7f7;
+  margin-left: 160px;
+}
+.add-friend-close {
+  width: 32px;
+  height: 32px;
+  background-color: transparent; 
+  background-image: url(../img/close.png);
+  background-repeat: no-repeat;
+  background-size: 32px 32px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.add-friend-close:hover {
+  background-image: url(../img/close_hover.png);
+  background-color: #FA5959;
+}
+.add-friend-body {
+  padding: 16px;
+}
+.add-friend-search {
+  display: flex;
+  gap: 8px;
+}
+.add-friend-input {
+  flex: 1;
+  height: 36px;
+  padding: 0px 8px;
+  padding-left: 30px;
+  border: 1px solid #2f2f2f;
+  outline: none;
+  border-radius: 4px;
+  background-color: #2f2f2f;
+  color: #f7f7f7;
+  background-image: url(../img/search.png);
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  background-position: 5px center;
+}
+.add-friend-input:focus {
+  border-color: #07c160;
+}
+.add-friend-search-btn {
+  width: 86px;
+  height: 36px;
+  border: none;
+  background: #07c160;
+  color: #f7f7f7;
+  font-size: 17px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 隐藏列表 */
+.hide {
+  display: none;
 }

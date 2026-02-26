@@ -35,7 +35,14 @@ public class UserController {
         return response.put(Arrays.asList("userId","userName")
                 ,Arrays.asList(user.getUserId(),user.getUserName()));
     }
-
+    @RequestMapping(value = "/logout")
+    public void logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session != null) {
+            System.out.println("[logout] 用户退出登录:"+session.getAttribute("user"));
+            session.invalidate();
+        }
+    }
     @RequestMapping(value = "/register")
     public Object register(String userName, String passWord) {
         if(userName.isEmpty() || passWord.isEmpty()) {

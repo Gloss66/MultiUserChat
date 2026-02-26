@@ -20,6 +20,36 @@ function initSwitchTab() {
 
 initSwitchTab();
 
+// 退出登录确认弹窗
+function initLogoutConfirm() {
+    let logoutDiv = document.querySelector('.main .left .user .logout');
+    let logoutModal = document.querySelector('.main .logout-modal');
+    let cancelButton = document.querySelector('.main .logout-modal .cancel');
+    let confirmButton = document.querySelector('.main .logout-modal .confirm');
+    logoutDiv.onclick = function () {
+        logoutModal.classList.remove('hide');
+    }
+    cancelButton.onclick = function () {
+        logoutModal.classList.add('hide');
+    }
+    logoutModal.onclick = function (event) {
+        if(event.target == logoutModal) {
+            logoutModal.classList.add('hide');
+        }
+    }
+    confirmButton.onclick = function () {
+        $.ajax({
+            type: 'post',
+            url: '/logout',
+            success: function () {
+                location.assign('/login.html');
+            }
+        });
+    }
+}
+
+initLogoutConfirm();
+
 // 操作websocket //
 let websocket = new WebSocket('ws://localhost:12345/websocket');
 websocket.onopen = function () {
@@ -93,15 +123,20 @@ function initSendButton() {
             return;
         }
         let sessionId = sessionLi.getAttribute('session-id');
+        if(sessionLi.previousElementSibling!=null) {
+            updateLastTime(sessionId);
+        }
         let req={
             type:'message',
             sessionId: sessionId,
             content: messageInput.value
         };
-        console.log('发送消息:/n'+JSON.stringify(req));
+        console.log('点击了发送按钮,消息内容:'+messageInput.value);
+        console.log('发送消息:'+JSON.stringify(req));
         websocket.send(JSON.stringify(req));
         // 清空输入框
         messageInput.value = '';
+        
     }
 }
 initSendButton();
@@ -113,7 +148,7 @@ function getUserInfo() {
         url: '/userInfo',
         success: function (body) {
             if(body.userId && body.userId > 0) {
-                let userDiv = document.querySelector('.main .left .user');
+                let userDiv = document.querySelector('.main .left .user .info');
                 userDiv.innerHTML = body.userName;
                 userDiv.setAttribute("user-id", body.userId);
             } else {
@@ -142,6 +177,10 @@ function getFriendList() {
                 li.onclick = function() {
                     clickFriend(friend);
                 }
+            }
+            // 若搜索框有输入,刷新搜索结果
+            if(typeof refreshFriendSearch === 'function') {
+                refreshFriendSearch();
             }
         },
         error: function () {
@@ -249,13 +288,14 @@ function addMessage(contentDiv,message) {
     // 使用div表示一条消息
     let messageDiv = document.createElement('div');
     // 判断当前消息是否为用户自己发的,再决定消息是否靠右显示
-    let selfUserName = document.querySelector('.left .user').innerHTML;
+    let selfUserName = document.querySelector('.left .user .info').innerHTML;
     if(selfUserName == message.fromName) {
         messageDiv.className = 'message message-right';
     }else{
         messageDiv.className = 'message message-left';
     }
-    messageDiv.innerHTML = '<div class="box">'+'<h4>'+message.fromName+'</h4>'+'<p>'+message.content+'</p>'+'</div>';
+    let textContent=message.content.replace(/\n/g,'<br>'); // 将消息内容中的换行符替换为<br>标签
+    messageDiv.innerHTML = '<div class="box">'+'<h4>'+message.fromName+'</h4>'+'<p>'+textContent+'</p>'+'</div>';
     contentDiv.appendChild(messageDiv);
 }
 
@@ -279,7 +319,6 @@ function clickFriend(friend) {
         if(!sessionLi.classList.contains('active')) {
             clickSession(sessionLi);
         }
-        updateLastTime(friend.friendId);
     }else {
         sessionLi =document.createElement('li');
         sessionLi.innerHTML="<h3>"+friend.friendName+"</h3>"+"<p></p>";
@@ -290,6 +329,7 @@ function clickFriend(friend) {
         sessionLi.click();
         createSession(friend.friendId,sessionLi);
     }
+    // updateLastTime(sessionLi.getAttribute("session-id"));
     let tabSession = document.querySelector('.tab .tab-session');
     tabSession.click();
 }
@@ -316,13 +356,207 @@ function createSession(friendId,sessionLi) {
     })
 }
 
-function updateLastTime(friendId) {
+function updateLastTime(sessionId) {
     $.ajax({
         type: 'post',
-        url: '/updateLastTime?toUserId='+friendId,
+        url: '/updateLastTime?sessionId='+sessionId,
         success: function(body){
-            console.log("更新会话最后时间成功!");
+            console.log("更新会话最近时间成功!");
         }
     })
 }
 
+// 实时好友搜索
+let refreshFriendSearch;
+
+function initFriendSearch() {
+    // 获取搜索框、结果容器、结果列表节点
+    let searchInput = document.querySelector('.main .left .search input');
+    let resultWrapper = document.querySelector('.main .left .search-result');
+    let resultList = document.querySelector('.main .left .search-result-list');
+
+    if(!searchInput || !resultWrapper || !resultList) return;
+
+    function hideResults() {
+        resultWrapper.classList.add('hide');
+    }
+
+    function showResults() {
+        resultWrapper.classList.remove('hide');
+    }
+
+    function collectFriends() {
+        let listItems = document.querySelectorAll('#friend-list li');
+        let friends = [];
+        listItems.forEach(function(li) {
+            let h4 = li.querySelector('h4');
+            if(!h4) return;
+            let friendName = h4.textContent.trim();
+            if(!friendName) return;
+            friends.push({
+                friendName: friendName,
+                friendId: li.getAttribute('friend-id')
+            });
+        });
+        return friends;
+    }
+
+    function render(keyword) {
+        // 过滤、匹配并渲染结果列表
+        let key = (keyword || '').trim().toLowerCase();
+        resultList.innerHTML = '';
+        if(!key) {
+            hideResults();
+            return;
+        }
+
+        let friends = collectFriends();
+        let matches = friends.filter(function(friend) {
+            return friend.friendName.toLowerCase().includes(key);
+        });
+
+        if(matches.length === 0) {
+            showResults();
+            let emptyLi = document.createElement('li');
+            emptyLi.classList.add('no-result');
+            emptyLi.textContent = '未搜索到结果';
+            resultList.appendChild(emptyLi);
+            return;
+        }
+
+        matches.forEach(function(friend) {
+            let li = document.createElement('li');
+            li.textContent = friend.friendName;
+            li.onclick = function() {
+                // 复用已有的 clickFriend 打开会话
+                clickFriend({
+                    friendId: friend.friendId,
+                    friendName: friend.friendName
+                });
+                hideResults();
+            };
+            resultList.appendChild(li);
+        });
+        showResults();
+    }
+
+    searchInput.addEventListener('input', function() {
+        // 输入即搜索
+        render(searchInput.value);
+    });
+
+    searchInput.addEventListener('focus', function() {
+        if(searchInput.value.trim()) {
+            render(searchInput.value);
+        }
+    });
+
+    document.addEventListener('click', function(event) {
+        // 点击框外隐藏结果
+        let isInside = searchInput.contains(event.target) || resultWrapper.contains(event.target);
+        if(!isInside) {
+            hideResults();
+        }
+    });
+
+    refreshFriendSearch = function() {
+        // 外部在好友列表刷新后手动触发重渲染
+        if(searchInput.value.trim()) {
+            render(searchInput.value);
+        }
+    };
+}
+
+// 添加按钮下拉菜单与添加好友弹窗逻辑
+function initAddMenu() {
+    let addBtn = document.querySelector('.main .left .search .addBtn');
+    let overlay = document.querySelector('.main .add-menu-overlay');
+    let dropdown = document.querySelector('.main .add-menu-dropdown');
+    let addFriendItem = document.querySelector('.main .add-menu-item.add-friend-item');
+    let createGroupItem = document.querySelector('.main .add-menu-item.create-group-item');
+    let addFriendModal = document.querySelector('.main .add-friend-modal');
+    let addFriendClose = document.querySelector('.main .add-friend-close');
+
+    if(!addBtn || !overlay || !dropdown) return;
+
+    function openMenu() {
+        // 计算按钮在 main 内的位置
+        let mainRect = document.querySelector('.main').getBoundingClientRect();
+        let btnRect = addBtn.getBoundingClientRect();
+        // 设置 overlay 可见
+        overlay.classList.remove('hide');
+        // 放置 dropdown 紧贴按钮下方
+        let top = btnRect.bottom - mainRect.top + 6; // 6px margin
+        let left = btnRect.left - mainRect.left;
+        dropdown.style.top = top + 'px';
+        dropdown.style.left = left + 'px';
+    }
+
+    function closeMenu() {
+        overlay.classList.add('hide');
+    }
+
+    addBtn.onclick = function (e) {
+        e.stopPropagation();
+        openMenu();
+    }
+
+    // 点击遮罩空白处关闭
+    overlay.onclick = function (event) {
+        if(event.target === overlay) {
+            closeMenu();
+        }
+    }
+
+    // esc 键关闭菜单或模态框
+    document.addEventListener('keydown', function (event) {
+        if(event.key === 'Escape') {
+            if(!overlay.classList.contains('hide')) closeMenu();
+            if(addFriendModal && !addFriendModal.classList.contains('hide')) addFriendModal.classList.add('hide');
+        }
+    });
+
+    // 点击添加好友项 -> 关闭小窗口并打开添加好友模态框
+    addFriendItem.onclick = function () {
+        closeMenu();
+        if(addFriendModal) addFriendModal.classList.remove('hide');
+    }
+
+    // 发起群聊，目前仅关闭菜单（后续可扩展）
+    createGroupItem.onclick = function () {
+        closeMenu();
+        // TODO: 打开群聊创建流程
+    }
+
+    // 添加好友模态框关闭
+    if(addFriendClose) {
+        addFriendClose.onclick = function () {
+            if(addFriendModal) addFriendModal.classList.add('hide');
+        }
+    }
+
+    // 点击添加好友模态框遮罩关闭
+    if(addFriendModal) {
+        addFriendModal.onclick = function (event) {
+            if(event.target === addFriendModal) addFriendModal.classList.add('hide');
+        }
+    }
+}
+
+initFriendSearch();
+initAddMenu();
+
+function sendByEnter() {
+    let messageInput = document.querySelector('.right .message-input');
+    messageInput.addEventListener('keydown', function(event) {
+        if(event.key === 'Enter') {
+            if(event.shiftKey) {
+                return;
+            }else{
+                event.preventDefault(); // 阻止默认换行行为
+                document.querySelector('.right .ctrl button').click(); // 触发发送按钮点击事件
+            }
+        }
+    });
+}
+sendByEnter();

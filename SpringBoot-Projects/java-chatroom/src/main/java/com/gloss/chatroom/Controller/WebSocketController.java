@@ -51,7 +51,7 @@ public class WebSocketController extends TextWebSocketHandler {
      */
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("[Websocket] 收到消息: " + message.toString());
+        System.out.println("[Websocket] 收到消息: " + message);
         User user= (User)session.getAttributes().get("user");
         if(user==null){
             return;
@@ -97,6 +97,7 @@ public class WebSocketController extends TextWebSocketHandler {
         message.setFromId(fromUser.getUserId());
         message.setSessionId(req.getSessionId());
         message.setContent(req.getContent());
+        System.out.println("[Websocket] 存储消息: " + message.getContent().replaceAll("\n","\\\\n"));
         messageMapper.addMessage(message);
     }
 

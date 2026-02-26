@@ -9,7 +9,8 @@
 </head>
 <body>
   <!-- 遮罩层,实现背景模糊的效果 -->
-  <div class="cover"></div>
+  <div class="cover">
+  </div>
   <!-- 覆盖整个页面 -->
   <div class="client-container">
     <!-- 应用区域 -->
@@ -17,15 +18,27 @@
       <!-- 左边区域:显示列表和搜索框等.... -->
       <div class="left">
         <div class="user">
-          
+          <!-- 用户信息 -->
+          <div class="info">
+          </div>
+          <!-- 退出登录 -->
+          <div class="logout" title="退出登录">
+          </div>
         </div>
-        <!-- 搜索框 -->
+        <!-- 搜索和添加 -->
         <div class="search">
           <!-- 搜索框的输入框 -->
-          <input type="text" placeholder="搜索">
+          <input type="text" placeholder="搜索好友">
           <!-- 搜索按钮 -->
-          <button></button>
+          <!-- <button class="searchBtn"></button> -->
+          <!-- 添加按钮 -->
+          <button class="addBtn"></button>
         </div>
+        <!-- 搜索结果下拉列表 -->
+        <div class="search-result hide">
+          <ul class="search-result-list"></ul>
+        </div>
+        
         <!-- 标签页 -->
         <div class="tab">
           <!-- 会话列表标签 -->
@@ -48,16 +61,12 @@
               <div class="message message-left">
                 <!-- 一个消息块 -->
                 <div class="box">
-                  <h4>lisi</h4>
-                  <p>你好啊</p>
                 </div>
               </div>
               <!-- 一个消息行 -->
               <div class="message message-right">
                 <!-- 一个消息块 -->
                 <div class="box">
-                  <h4>zhangsan</h4>
-                  <p>你好~~~~~~~~~~~</p>
                 </div>
               </div>
           </div>
@@ -70,6 +79,47 @@
       </div>
       <!-- 右边区域,显示空白页面 -->
       <div class="right-plain"></div>
+
+      <!-- 退出登录确认弹窗 -->
+      <div class="logout-modal hide">
+        <div class="logout-dialog">
+          <div class="logout-text">是否退出登录</div>
+          <div class="logout-actions">
+            <button class="cancel">取消</button>
+            <button class="confirm">确认</button>
+          </div>
+        </div>
+      </div>
+      <!-- 添加好友大窗口（居中） -->
+      <div class="add-friend-modal hide">
+        <div class="add-friend-dialog">
+          <div class="add-friend-header">
+            <div class="add-friend-title">添加好友</div>
+            <div class="add-friend-close" title="关闭"></div>
+          </div>
+          <div class="add-friend-body">
+            <div class="add-friend-search">
+              <input class="add-friend-input" type="text" placeholder="输入用户名或ID搜索">
+              <button class="add-friend-search-btn">搜索</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 添加按钮下的下拉菜单与遮罩 -->
+        <div class="add-menu-overlay hide">
+          <div class="add-menu-dropdown">
+            <div class="add-menu-item add-friend-item">
+              <span class="icon-placeholder"></span>
+              <span class="text">添加好友</span>
+            </div>
+            <div class="add-menu-item create-group-item">
+              <span class="icon-placeholder"></span>
+              <span class="text">发起群聊</span>
+            </div>
+          </div>
+        </div>
+
     </div>
   </div>
 
