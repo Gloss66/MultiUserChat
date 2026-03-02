@@ -16,14 +16,10 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-  mvc:
-    favicon:
-      enable: false
   profiles:  #多平台配置
     active: dev
 #  main:
 #    allow-bean-definition-overriding: true
-
 logging:
   file:
     path: /logs
