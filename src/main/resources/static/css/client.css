@@ -15,6 +15,7 @@
   display: flex;
   z-index: 2;
   position: relative;
+  overflow: hidden;
 }
 
 .main .left {
@@ -163,7 +164,7 @@
   background-position: center center;
 }
 
-/* 添加按钮 */
+/* "添加"按钮 */
 .main .left .search .addBtn {
   height: 34px;
   width: 34px;
@@ -276,7 +277,7 @@
 }
 
 .main .left .list:hover {
-  overflow: overlay;
+  overflow: auto;
 }
 
 /* 列表元素块 */
@@ -557,7 +558,7 @@
   background-color: #a6a6a6;
 }
 
-/* 添加菜单覆盖层 */
+/* "添加"菜单覆盖层 */
 .add-menu-overlay {
   position: absolute;
   top: 0;
@@ -574,7 +575,7 @@
 .add-menu-overlay.hide {
   display: none;
 }
-/* 添加菜单下拉框 */
+/* "添加"菜单下拉框 */
 .add-menu-dropdown {
   position: absolute;
   min-width: 140px;
@@ -626,7 +627,7 @@
   font-size: 18px;
 }
 
-/* 添加好友居中大窗口 */
+/* 添加好友居中 大窗口 */
 .add-friend-modal {
   position: absolute;
   top: 0;

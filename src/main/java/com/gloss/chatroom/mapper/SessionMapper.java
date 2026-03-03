@@ -39,8 +39,7 @@ public interface SessionMapper {
 
     /**
      * 更新会话的最后活跃时间
-     * @param userId 用户id
-     * @param toUserId 好友id
+     * @param sessionId 会话id
      */
-    void updateLastTime(Integer userId, Integer toUserId);
+    void updateLastTime(Integer sessionId);
 }

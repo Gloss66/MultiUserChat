@@ -1,4 +1,4 @@
-package com.gloss.chatroom.Controller;
+package com.gloss.chatroom.controller;
 
 import com.gloss.chatroom.mapper.SessionMapper;
 import com.gloss.chatroom.mapper.UserMapper;

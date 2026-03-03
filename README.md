@@ -1,5 +1,7 @@
 # MultiUserChat
 多用户聊天网页程序
+
+项目演示网址：https://web.sutaiyu.site:12345/login.html
 ## 项目简介
 
 Java-chatroom 是一个基于 Spring Boot 开发的实时聊天系统，支持用户注册、登录、好友管理、实时消息发送等功能。该项目采用分层架构设计，结合 WebSocket 技术实现实时通信，为用户提供流畅的聊天体验。
@@ -106,23 +108,24 @@ Java-chatroom/
 5. **运行项目**：
 
    ```bash
-   java -jar target/Java-chatroom-1.0.0.jar
+   nohup java -jar MutiUserChat-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
    ```
 
 6. **访问应用**：
 
-    - 浏览器访问 `http://localhost:8080/login.html` 进入登录页面
+    - 浏览器本地访问 `http://localhost:12345/login.html` 
 
+    - 浏览器远程访问 `http://<服务器IP>:12345/login.html`
 ## 使用说明
 
 ### 1. 用户注册
 
-- 访问 `http://localhost:8080/register.html`
+- 访问 `http://localhost:12345/register.html`
 - 填写用户名、密码等信息进行注册
 
 ### 2. 用户登录
 
-- 访问 `http://localhost:8080/login.html`
+- 访问 `http://localhost:12345/login.html`
 - 输入用户名和密码进行登录
 
 ### 3. 聊天功能
@@ -196,7 +199,7 @@ Java-chatroom/
 ## 注意事项
 
 1. **数据库配置**：确保正确配置数据库连接信息，包括 URL、用户名和密码
-2. **端口占用**：默认使用 8080 端口，如需修改请在 `application.properties` 中配置
+2. **端口占用**：默认使用 12345 端口，如需修改请在 `application.properties` 中配置
 3. **WebSocket 支持**：确保浏览器支持 WebSocket 功能
 4. **安全考虑**：生产环境中建议添加 HTTPS 支持，增强安全性
 

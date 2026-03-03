@@ -1,7 +1,7 @@
-package com.gloss.chatroom.Controller;
+package com.gloss.chatroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gloss.chatroom.Component.OnlineUserManager;
+import com.gloss.chatroom.component.OnlineUserManager;
 import com.gloss.chatroom.mapper.MessageMapper;
 import com.gloss.chatroom.mapper.SessionMapper;
 import com.gloss.chatroom.model.*;

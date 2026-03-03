@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testwebsocket</title>
+</head>
+<body>
+    <input type="text" id="message" placeholder="点我输入文字">
+    <button id="sendBtn">发送</button>
+    <script>
+        // 创建websocket实例
+        let websocket = new WebSocket('ws://localhost:12345/test');
+        websocket.onopen = function() {
+            console.log('websocket 连接建立');
+        }
+        websocket.onmessage = function(event) {
+            console.log('websocket 收到消息: ' + event.data);
+        }
+        websocket.onclose = function() {
+            console.log('websocket 连接关闭');
+        }
+        websocket.onerror = function(error) {
+            console.error('WebSocket 连接异常: ' + error);
+        }
+
+        let sendButton = document.querySelector('#sendBtn');
+        let messageInput = document.querySelector('#message');
+        sendButton.addEventListener('click', function() {
+            // let message = messageInput.value;
+            websocket.send(messageInput.value);
+            console.log('websocket 发送消息: ' + messageInput.value);
+        });
+    </script>
+</body>
+</html>

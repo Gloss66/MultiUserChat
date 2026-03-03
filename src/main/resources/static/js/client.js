@@ -51,7 +51,7 @@ function initLogoutConfirm() {
 initLogoutConfirm();
 
 // 操作websocket //
-let websocket = new WebSocket('ws://localhost:12345/websocket');
+let websocket = new WebSocket('wss://'+location.host+'/websocket');
 websocket.onopen = function () {
     console.log('websocket 连接建立成功!');
 }
@@ -366,7 +366,7 @@ function updateLastTime(sessionId) {
     })
 }
 
-// 实时好友搜索
+// 已有好友搜索
 let refreshFriendSearch;
 
 function initFriendSearch() {
@@ -433,7 +433,9 @@ function initFriendSearch() {
                     friendId: friend.friendId,
                     friendName: friend.friendName
                 });
+                // 点击结果后隐藏搜索结果并清空输入框
                 hideResults();
+                searchInput.value = '';
             };
             resultList.appendChild(li);
         });
@@ -460,7 +462,7 @@ function initFriendSearch() {
     });
 
     refreshFriendSearch = function() {
-        // 外部在好友列表刷新后手动触发重渲染
+        // getFriendList执行后触发重渲染
         if(searchInput.value.trim()) {
             render(searchInput.value);
         }

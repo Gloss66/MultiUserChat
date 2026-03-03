@@ -16,7 +16,6 @@
         insert into session_user(sessionId, userId) values(#{sessionId}, #{userId});
     </insert>
     <update id="updateLastTime">
-        update session set lastTime = now() where sessionId =
-        (select s1.sessionId from session_user s1 join session_user s2 on s1.userId=#{userId} and s2.userId=#{toUserId} and s1.sessionId = s2.sessionId);
+        update session set lastTime = now() where sessionId = #{sessionId};
     </update>
 </mapper>

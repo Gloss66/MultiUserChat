@@ -1,4 +1,4 @@
-package com.gloss.chatroom.Component;
+package com.gloss.chatroom.component;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;

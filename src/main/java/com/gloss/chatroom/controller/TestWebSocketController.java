@@ -1,4 +1,4 @@
-package com.gloss.chatroom.Controller;
+package com.gloss.chatroom.controller;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;

@@ -1,4 +1,4 @@
-package com.gloss.chatroom.Controller;
+package com.gloss.chatroom.controller;
 
 import com.gloss.chatroom.mapper.MessageMapper;
 import com.gloss.chatroom.mapper.SessionMapper;
@@ -76,8 +76,8 @@ public class SessionController {
 
     @RequestMapping(value="/updateLastTime")
     @Transactional
-    public Object updateLastTime(Integer toUserId, @SessionAttribute("user") User user){
-        sessionMapper.updateLastTime(user.getUserId(), toUserId);
+    public Object updateLastTime(Integer sessionId){
+        sessionMapper.updateLastTime(sessionId);
         return response.put("success", true);
     }
 }

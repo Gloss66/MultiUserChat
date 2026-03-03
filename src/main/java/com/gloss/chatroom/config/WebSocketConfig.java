@@ -1,7 +1,7 @@
 package com.gloss.chatroom.config;
 
-import com.gloss.chatroom.Controller.TestWebSocketController;
-import com.gloss.chatroom.Controller.WebSocketController;
+import com.gloss.chatroom.controller.TestWebSocketController;
+import com.gloss.chatroom.controller.WebSocketController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
